@@ -1,0 +1,57 @@
+<!-- <p>trans-history works!</p> -->
+<nav class="navbar navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand text-primary" routerLink="/dashboard">
+        <img src="https://static.thenounproject.com/png/417261-200.png" alt="" width="30" height="24" class="d-inline-block align-text-top">&nbsp;
+    Online Banking App
+      </a>
+    </div>
+  </nav>
+
+
+  <div class="row m-5">
+    <div class="col-lg-4">
+      <h4 class="text-success">Transaction History</h4>
+    </div>
+    <div class="col-lg-4">
+      <label for="search">Search By:</label>&nbsp;
+      <input (keyup)="search($event)" type="text" id="search" placeholder="transaction Type">
+      <!--  (keyup)="search($event) //$event - so that we could get event.target.value-->
+    </div>
+    <div class="col-lg-4">
+      <input (click)="generatePDF()" type="text" value="export" class="btn btn-success">
+    </div>
+  </div>
+  
+  
+    <!-- table -->
+   
+      <div class="table">
+        <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">No:</th>
+                <th scope="col">Transaction Type</th>
+                <th scope="col">From Account</th>
+                <th scope="col">To Account</th>
+                <th scope="col">Amount</th>
+              </tr>
+            </thead>
+           
+            <tbody>
+    
+              <tr *ngFor="let transaction of allTransactions | filter :searchKey : 'type'; let i=index">
+                <th scope="row">{{i+1}}</th>
+                <td>{{transaction.type}}</td>
+                <td>{{transaction.fromAcno}}</td>
+                <td>{{transaction.toAcno}}</td>
+                <td>{{transaction.amount}}</td>
+              </tr>
+    
+             
+  
+             
+            </tbody>
+          </table>
+      </div>
+

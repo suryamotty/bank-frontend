@@ -1,0 +1,44 @@
+<!-- <p>login works!</p> -->
+<app-header></app-header>
+
+    <div class="row">
+        <div class="col-7">
+            <!-- image -->
+            <img class=" login-image" src="https://w1.pngwing.com/pngs/745/579/png-transparent-business-card-online-banking-mobile-banking-payment-finance-bank-account-money-commercial-bank-thumbnail.png"  alt="no image">
+        </div>
+        <div class="col-5 mt-5">
+            <!-- (ngSubmit)="login()"  -->
+            <form (ngSubmit)="login()" [formGroup]="loginForm" class="border p-5 mt-5 me-5">
+                <div class=" mb-3">
+                    <input name="acno" formControlName="acno" type="text" placeholder="Account Number" class="form-control">
+                    <!-- <label for="floatingInput">Account Number</label> -->
+                </div>
+                <!-- invalid acno -->
+                <div *ngIf="this.loginForm.get('acno')?.errors&&this.loginForm.get('acno')?.touched" class="text-danger mb-2">Invalid Account Number</div>
+
+                <div  class="mt-4">
+                    <input name="pswd" formControlName="pswd" type="password" placeholder="Password" class="form-control">
+                    <!-- <label for="floatingPassword">Password</label> -->
+                </div>
+
+                 <!-- invalid password -->
+                 <div *ngIf="this.loginForm.get('pswd')?.errors&&this.loginForm.get('pswd')?.touched" class="text-danger mb-2">Invalid Password</div>
+
+                 <!-- error message -->
+                 <div class="text-danger">{{errorMsg}}</div>
+
+
+                 <!-- button - submit -->
+                <div class="mt-4">
+                    <button  type="submit" class="btn btn-primary">Login    &nbsp;
+                        <span *ngIf="successMsg" class="spinner-border text-light" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                          </span>
+                    </button>
+                    &nbsp;
+                    <span>New User? Click Here to <a routerLink="/register">register</a></span>
+                </div>
+            </form>
+        </div>
+    </div>
+

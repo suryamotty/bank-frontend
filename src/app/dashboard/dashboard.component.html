@@ -1,0 +1,170 @@
+<!-- navbar -->
+ <nav *ngIf="!deleteConfirm" class="navbar navbar-expand-lg bg-warning py-3" id="nav-1">
+    <div class="container ">
+        <img src="https://png.pngtree.com/png-clipart/20190628/original/pngtree-vector-bank-icon-png-image_4046246.jpg" width="50px" height="50px" alt="">
+        <a routerLink="/" class="navbar-brand">Online Banking App</a>
+        <button class=" navbar-inverse navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+            <span class="navbar-toggler-icon text-light"></span>
+        </button>
+
+        <div class="collapse navbar-collapse " id="navmenu">
+            <ul class="navbar-nav  ms-auto">
+             
+              <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="offcanvas" href="#offcanvasDeposit">Deposit</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="offcanvas" href="#offcanvasFundtransfer">Fund Transfer</a>
+              </li>
+              
+             
+              
+             <li class="nav-item">
+                <a class="nav-link" (click)="getBalance()" data-bs-toggle="offcanvas" href="#offcanvasExample" >Balance Enquiry</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" routerLink="/transHistory">Transaction History</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link btn" (click)="deleteAccountFromNavBar()">Delete Account</a>
+              </li>
+              <li class="nav-item ">
+                <a class="nav-link btn" (click)="logout()">Logout</a>
+              </li>
+            </ul>
+        </div>
+
+    </div>
+</nav>
+
+<!-- delete confirm - child selector -->
+<app-delete-confirm (onDelete)="onDelete($event)" (onCancel)="onCancel()" [item]="acno"></app-delete-confirm>
+
+<!-- delete spinner div -->
+<div *ngIf="deleteSpinnerDiv" class=" logout container mt-5">
+  <div class="row text-center">
+    <img style="width: 100px;" src="https://i.gifer.com/origin/34/34338d26023e5515f6cc8969aa027bca_w200.gif" alt="">
+    <p>Please wait while deleting your account...</p>
+  </div>
+</div>
+
+<!-- logout spinner -->
+<div *ngIf="logoutDiv" class=" logout container mt-5">
+  <div class="row text-center">
+    <img style="width: 100px;" src="https://i.gifer.com/origin/34/34338d26023e5515f6cc8969aa027bca_w200.gif" alt="">
+    <p>Logging Out...</p>
+  </div>
+</div>
+
+<!-- dashboard design -->
+
+<div *ngIf="!logoutDiv" class="main">
+    <div *ngIf="!deleteConfirm" class="container text-center mt-5">
+
+        <h2>Welcome {{user}}</h2>
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpC650bxBEk2zBAQj64HdZ770dTVGbO_lm9A&usqp=CAU" alt="">
+
+       
+    <p class="lead" style="text-align: justify;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa atque, praesentium voluptatibus quia nam esse sint! Libero deserunt, quidem ad praesentium, ducimus accusamus inventore tempore soluta ut unde est excepturi? Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil perferendis dolorum id aut in, labore nam culpa corrupti nisi. Impedit culpa fugiat quas minima quam nam quaerat amet nesciunt voluptatibus?
+    </p>
+
+    </div>
+</div>
+
+<!-- offcanvas -balance enquiry -->
+
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Balance Enquiry</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="text-center"><img width="200px" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5PdvVN4t_RsJJC_Wp8CZ0hXroVYWGpqcmbQ&usqp=CAU" alt=""></div>
+    <div style="margin-top:60px">
+      <h5>Dear {{user}} ,</h5>
+      <label >Your current account balance is <b>{{balance}}</b>
+      </label>
+    </div>
+    
+</div>
+</div>
+
+<!-- offcanvas -deposit -->
+
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasDeposit" aria-labelledby="offcanvasExampleLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Deposit</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="text-center"><img width="200px" src="https://icons.veryicon.com/png/o/business/bank-related/deposit-in.png" alt=""></div>
+    <div style="margin-top:60px">
+      <h5>Dear {{user}} ,
+        you can enter the amount to be deposited in your account
+      </h5>
+<form (ngSubmit)="deposit()" [formGroup]="depositForm" >
+  <div><input name="amount" formControlName="amount" type="text" class="form-control" placeholder="Enter Amount"></div>
+
+  <!-- Invalid Amount -->
+  <div *ngIf="this.depositForm.get('amount')?.errors&&this.depositForm.get('amount')?.touched" class="text-danger mb-2">Invalid Amount</div>
+
+<div class="text-danger">{{depositMsg}}</div>
+
+  <button (click)="showconfetti($event.target)"
+  class="btn btn-primary mt-2">Deposit</button>
+</form>
+    </div>
+    
+</div>
+</div>
+
+<!--offcanvas - fund transfer -->
+
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasFundtransfer" aria-labelledby="offcanvasExampleLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Fund Transfer</h5>
+    <button type="button" (click)="clearFundForm()" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="text-center"><img width="200px" src="https://cdn-icons-png.flaticon.com/512/4590/4590204.png" alt=""></div>
+    <div style="margin-top:60px">
+      <h5>Dear {{user}} ,
+      Enter the details for fund transfer
+    </h5>
+    <form  [formGroup]="fundForm" >
+      <!-- account Number -->
+      <div><input name="toAcno" formControlName="toAcno" type="text" class="form-control mt-2" placeholder="Enter Credit Account Number"></div>
+
+       <!-- Invalid Account Number-->
+      <div *ngIf="this.fundForm.get('toAcno')?.errors&&this.fundForm.get('toAcno')?.touched" class="text-danger mb-2">Invalid Account Number</div>
+
+      <!-- amount -->
+      <div><input name="amount" formControlName="amount" type="text" class="form-control mt-2" placeholder="Enter Amount"></div>
+
+      <!-- invalid amount -->
+      <div *ngIf="this.fundForm.get('amount')?.errors&&this.fundForm.get('amount')?.touched" class="text-danger mb-2">Invalid Amount</div>
+
+
+      <!-- password -->
+      <div><input name="pswd" formControlName="pswd" type="password" class="form-control mt-2" placeholder="Enter Your Password"></div>
+
+      <!-- Invalid Password -->
+      <div *ngIf="this.fundForm.get('pswd')?.errors&&this.fundForm.get('pswd')?.touched" class="text-danger mb-2">Invalid Password</div>
+
+
+
+    
+      <!-- Invalid Account Number-->
+      <!-- <div *ngIf="this.fundTransfer.get('acno')?.errors&&this.depositForm.get('acno')?.touched" class="text-danger mb-2">Invalid Account Number</div> -->
+    
+    <div class="text-success">{{fundTransferSuccessMsg}}</div>
+    <div class="text-danger">{{fundTransferErrorMsg}}</div>
+    
+      <button type="button" (click)="fundTransfer()" class="btn btn-primary mt-2">Transfer</button>
+    </form>
+
+    </div>
+
+    
+</div>
+</div>
